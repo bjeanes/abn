@@ -1,5 +1,4 @@
 class ABN
-
   module Version #:nodoc:
     Major = 1
     Minor = 2
@@ -7,10 +6,18 @@ class ABN
     
     String = [Major, Minor, Tiny].join('.')
   end
+  
+  attr_accessor :number
 
   # Creates an ABN object representing the ABN number passed
   # as the only parameter.
   def initialize(num)
+    self.number = num
+  end
+  
+  protected :number=
+  def number=(num)
+    @valid = nil # make sure this is recalculated
     @number = num.to_s.tr ' ',''
   end
 
@@ -18,18 +25,20 @@ class ABN
   # valid ABN number according to a weighting
   # algorithm (not checked against a datbase)
   def valid?
-    return false unless @number.length == 11
-
     @valid ||= begin
-      weights = [10, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-      sum = 0
-      (0..10).each do |i|
-        c = @number[i,1]
-        digit = c.to_i - (i.zero? ? 1 : 0)
-        sum += weights[i] * digit
-      end
+      if @number.length == 11
+        weights = [10, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+        sum = 0
+        (0..10).each do |i|
+          c = @number[i,1]
+          digit = c.to_i - (i.zero? ? 1 : 0)
+          sum += weights[i] * digit
+        end
     
-      sum % 89 == 0 ? true : false
+        sum % 89 == 0 ? true : false
+      else
+        false
+      end
     end
   end
 
