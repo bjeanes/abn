@@ -1,425 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:s1="http://abr.business.gov.au/ABRXMLSearchRPC/literalTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://abr.business.gov.au/ABRXMLSearchRPC/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://abr.business.gov.au/ABRXMLSearchRPC/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://abr.business.gov.au/ABRXMLSearch/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://abr.business.gov.au/ABRXMLSearch/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <s:schema targetNamespace="http://abr.business.gov.au/ABRXMLSearchRPC/">
-      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
-      <s:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+    <s:schema elementFormDefault="qualified" targetNamespace="http://abr.business.gov.au/ABRXMLSearch/">
+      <s:element name="ABRSearchByABN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="includeHistoricalDetails" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByABNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:complexType name="Payload">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Request" type="tns:ExternalRequest" />
-          <s:element minOccurs="1" maxOccurs="1" name="Response" type="tns:Response" />
+          <s:element minOccurs="0" maxOccurs="1" name="request" type="tns:ExternalRequest" />
+          <s:element minOccurs="0" maxOccurs="1" name="response" type="tns:Response" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ExternalRequest">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="ExternalRequestBody" type="s:anyType" />
+          <s:choice minOccurs="1" maxOccurs="1">
+            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNCharityFilter" type="tns:ExternalRequestABNCharityFilter" />
+            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNUpdateEventFilter" type="tns:ExternalRequestABNUpdateEventFilter" />
+            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNFilter" type="tns:ExternalRequestABNFilter" />
+            <s:element minOccurs="0" maxOccurs="1" name="nameSearchRequestAdvanced2006" type="tns:ExternalRequestNameSearchAdvanced2006" />
+            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNEventFilter" type="tns:ExternalRequestABNEventFilter" />
+            <s:element minOccurs="0" maxOccurs="1" name="nameSearchRequest" type="tns:ExternalRequestNameSearch" />
+            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNStatusFilter" type="tns:ExternalRequestABNStatusFilter" />
+            <s:element minOccurs="0" maxOccurs="1" name="identifierSearchRequest" type="tns:ExternalRequestIdentifierSearch" />
+            <s:element minOccurs="0" maxOccurs="1" name="nameSearchRequestAdvanced" type="tns:ExternalRequestNameSearchAdvanced" />
+          </s:choice>
         </s:sequence>
       </s:complexType>
-      <s:complexType name="Response">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="UsageStatement" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="DateRegisterLastUpdated" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="DateTimeRetrieved" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="ResponseBody" type="s:anyType" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="SuperannuationStatus">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="ComplyingCode" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="ComplyingDescription" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Regulator" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="ExceptionMessage" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ExternalRequestFilters">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="NameType" type="tns:ExternalRequestFilterNameType" />
-          <s:element minOccurs="1" maxOccurs="1" name="Postcode" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="StateCode" type="tns:ExternalRequestFilterStateCode" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ExternalRequestFilterNameType">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="TradingName" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="LegalName" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ExternalRequestFilterStateCode">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="QLD" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="NT" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="SA" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="WA" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="VIC" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="ACT" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="TAS" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="NSW" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="Individual">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="FullName" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="GivenName" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="OtherGivenName" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="FamilyName" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="IndividualName">
+      <s:complexType name="ExternalRequestABNCharityFilter">
         <s:complexContent mixed="false">
-          <s:extension base="tns:Individual">
+          <s:extension base="tns:ExternalRequestABNFilter">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:dateTime" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="IndividualSimpleName">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:Individual">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="Score" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="IsCurrentIndicator" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="SearchResultsRecord">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="NameType" type="tns:ArrayOfNameTypeEnumerator" />
-          <s:element minOccurs="1" maxOccurs="1" name="ABN" type="tns:ArrayOfIdentifierSummary" />
-          <s:element minOccurs="1" maxOccurs="1" name="Name" type="tns:ArrayOfAnyType" />
-          <s:element minOccurs="1" maxOccurs="1" name="MainBusinessPhysicalAddress" type="tns:ArrayOfAddressSimple" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfNameTypeEnumerator">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:NameTypeEnumerator[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:simpleType name="NameTypeEnumerator">
-        <s:restriction base="s:string">
-          <s:enumeration value="None" />
-          <s:enumeration value="legalName" />
-          <s:enumeration value="mainName" />
-          <s:enumeration value="mainTradingName" />
-          <s:enumeration value="otherTradingName" />
-          <s:enumeration value="PBIEName" />
-          <s:enumeration value="dgrFundName" />
-        </s:restriction>
-      </s:simpleType>
-      <s:complexType name="ArrayOfIdentifierSummary">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:IdentifierSummary[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="IdentifierSummary">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="IdentifierValue" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="IdentifierStatus" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfAnyType">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="s:anyType[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfAddressSimple">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:AddressSimple[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="AddressSimple">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:Address">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="IsCurrentIndicator" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="Address" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="StateCode" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Postcode" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="AddressFull">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:Address">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="AddressLine1" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="AddressLine2" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Suburb" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="CountryName" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="AddressDetails">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:Address">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:dateTime" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="CharitableFund">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="pbiName" type="tns:ArrayOfOrganisationSimpleName" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfOrganisationSimpleName">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:OrganisationSimpleName[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="OrganisationSimpleName">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:Organisation">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="Score" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="IsCurrentIndicator" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="Organisation">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="OrganisationName" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="OrganisationName">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:Organisation">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:anyType" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="CharityConcession">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="EndorsementType" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="CharityType">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="CharityTypeDescription" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="DgrFund">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="DgrFundName" type="tns:ArrayOfOrganisationSimpleName" />
-          <s:element minOccurs="1" maxOccurs="1" name="EndorsedFrom" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="EndorsedTo" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="DGREndorsement">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="EndorsedFrom" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="EndorsedTo" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="GoodsAndServicesTax">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="EntityType">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="EntityTypeCode" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="EntityDescription" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="EntityStatus">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="EntityStatusCode" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveFrom" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="EffectiveTo" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="Identifier">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="IdentifierValue" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="IsCurrentIndicator" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="ReplacedIdentifierValue" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="ReplacedFrom" type="s:dateTime" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ResponseBody" />
-      <s:complexType name="ResponseABNList">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ResponseBody">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="NumberOfRecords" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="ABN" type="tns:ArrayOfString" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfString">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="s:string[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ResponseException">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ResponseBody">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="ExceptionDescription" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="ExceptionCode" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ResponseSearchResultsList">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ResponseBody">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="NumberOfRecords" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="ExceedsMaximum" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="SearchResultsRecord" type="tns:ArrayOfSearchResultsRecord" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfSearchResultsRecord">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:SearchResultsRecord[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ResponseBusinessEntity">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ResponseBody">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="RecordLastUpdatedDate" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="ABN" type="tns:ArrayOfIdentifier" />
-              <s:element minOccurs="1" maxOccurs="1" name="EntityStatus" type="tns:ArrayOfEntityStatus" />
-              <s:element minOccurs="1" maxOccurs="1" name="ASICNumber" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="EntityType" type="tns:EntityType" />
-              <s:element minOccurs="1" maxOccurs="1" name="GoodsAndServicesTax" type="tns:ArrayOfGoodsAndServicesTax" />
-              <s:element minOccurs="1" maxOccurs="1" name="DgrEndorsement" type="tns:ArrayOfDGREndorsement" />
-              <s:element minOccurs="1" maxOccurs="1" name="Name" type="tns:ArrayOfAnyType" />
-              <s:element minOccurs="1" maxOccurs="1" name="MainTradingName" type="tns:ArrayOfOrganisationName" />
-              <s:element minOccurs="1" maxOccurs="1" name="OtherTradingName" type="tns:ArrayOfOrganisationName" />
-              <s:element minOccurs="1" maxOccurs="1" name="MainBusinessPhysicalAddress" type="tns:ArrayOfAddressDetails" />
-              <s:element minOccurs="1" maxOccurs="1" name="DgrFund" type="tns:ArrayOfDgrFund" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfIdentifier">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:Identifier[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfEntityStatus">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:EntityStatus[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfGoodsAndServicesTax">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:GoodsAndServicesTax[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfDGREndorsement">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:DGREndorsement[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfOrganisationName">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:OrganisationName[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfAddressDetails">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:AddressDetails[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfDgrFund">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:DgrFund[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ResponseBusinessEntity200506">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ResponseBusinessEntity">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="CharityType" type="tns:ArrayOfCharityType" />
-              <s:element minOccurs="1" maxOccurs="1" name="TaxConcessionCharityEndorsement" type="tns:ArrayOfCharityConcession" />
-              <s:element minOccurs="1" maxOccurs="1" name="CharitableFund" type="tns:ArrayOfCharitableFund" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfCharityType">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:CharityType[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfCharityConcession">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:CharityConcession[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ArrayOfCharitableFund">
-        <s:complexContent mixed="false">
-          <s:restriction base="soapenc:Array">
-            <s:attribute wsdl:arrayType="tns:CharitableFund[]" ref="soapenc:arrayType" />
-          </s:restriction>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ResponseBusinessEntity200709">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ResponseBusinessEntity200506">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="SuperannuationStatus" type="tns:SuperannuationStatus" />
-              <s:element minOccurs="1" maxOccurs="1" name="MainPostalPhysicalAddress" type="tns:AddressFull" />
+              <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="charityTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="concessionTypeCode" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -428,19 +54,9 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:ExternalRequest">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="AuthenticationGUID" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Postcode" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="EntityTypeCode" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestABNUpdateEventFilter">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ExternalRequestABNFilter">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="State" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="UpdateDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="authenticationGUID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="entityTypeCode" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -449,9 +65,9 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:ExternalRequestABNFilter">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="State" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Month" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="month" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="year" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -460,41 +76,18 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:ExternalRequestABNFilter">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="ActiveABNsOnly" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="CurrentGSTRegistrationOnly" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="activeABNs" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="currentGSTRegistrationOnly" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
-      <s:complexType name="ExternalRequestNameSearch">
+      <s:complexType name="ExternalRequestABNUpdateEventFilter">
         <s:complexContent mixed="false">
-          <s:extension base="tns:ExternalRequest">
+          <s:extension base="tns:ExternalRequestABNFilter">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="AuthenticationGUID" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Name" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Filters" type="tns:ExternalRequestFilters" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestIdentifierSearch">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ExternalRequest">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="AuthenticationGUID" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="IdentifierType" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="IdentifierValue" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="History" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestNameSearchAdvanced">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:ExternalRequestNameSearch">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="SearchWidth" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="MinimumScore" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="updateDate" type="s:dateTime" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -503,38 +96,14 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:ExternalRequestNameSearchAdvanced">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="MaxSearchResults" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="maxSearchResults" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
-    </s:schema>
-    <s:schema elementFormDefault="qualified" targetNamespace="http://abr.business.gov.au/ABRXMLSearchRPC/literalTypes">
-      <s:element name="ABRPayloadSearchResults" nillable="true" type="s1:Payload" />
-      <s:complexType name="Payload">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="request" type="s1:ExternalRequest" />
-          <s:element minOccurs="0" maxOccurs="1" name="response" type="s1:Response" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ExternalRequest">
-        <s:sequence>
-          <s:choice minOccurs="1" maxOccurs="1">
-            <s:element minOccurs="0" maxOccurs="1" name="nameSearchRequestAdvanced" type="s1:ExternalRequestNameSearchAdvanced" />
-            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNEventFilter" type="s1:ExternalRequestABNEventFilter" />
-            <s:element minOccurs="0" maxOccurs="1" name="nameSearchRequestAdvanced2006" type="s1:ExternalRequestNameSearchAdvanced2006" />
-            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNCharityFilter" type="s1:ExternalRequestABNCharityFilter" />
-            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNUpdateEventFilter" type="s1:ExternalRequestABNUpdateEventFilter" />
-            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNStatusFilter" type="s1:ExternalRequestABNStatusFilter" />
-            <s:element minOccurs="0" maxOccurs="1" name="externalRequestABNFilter" type="s1:ExternalRequestABNFilter" />
-            <s:element minOccurs="0" maxOccurs="1" name="identifierSearchRequest" type="s1:ExternalRequestIdentifierSearch" />
-            <s:element minOccurs="0" maxOccurs="1" name="nameSearchRequest" type="s1:ExternalRequestNameSearch" />
-          </s:choice>
-        </s:sequence>
-      </s:complexType>
       <s:complexType name="ExternalRequestNameSearchAdvanced">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequestNameSearch">
+          <s:extension base="tns:ExternalRequestNameSearch">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="searchWidth" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="minimumScore" type="s:int" />
@@ -544,20 +113,20 @@
       </s:complexType>
       <s:complexType name="ExternalRequestNameSearch">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequest">
+          <s:extension base="tns:ExternalRequest">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="authenticationGUID" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="filters" nillable="true" type="s1:ExternalRequestFilters" />
+              <s:element minOccurs="1" maxOccurs="1" name="filters" nillable="true" type="tns:ExternalRequestFilters" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
       <s:complexType name="ExternalRequestFilters">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="nameType" nillable="true" type="s1:ExternalRequestFilterNameType" />
+          <s:element minOccurs="1" maxOccurs="1" name="nameType" nillable="true" type="tns:ExternalRequestFilterNameType" />
           <s:element minOccurs="1" maxOccurs="1" name="postcode" nillable="true" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="stateCode" nillable="true" type="s1:ExternalRequestFilterStateCode" />
+          <s:element minOccurs="1" maxOccurs="1" name="stateCode" nillable="true" type="tns:ExternalRequestFilterStateCode" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ExternalRequestFilterNameType">
@@ -578,71 +147,9 @@
           <s:element minOccurs="0" maxOccurs="1" name="NSW" type="s:string" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="ExternalRequestNameSearchAdvanced2006">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequestNameSearchAdvanced">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="maxSearchResults" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestABNEventFilter">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequestABNFilter">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="month" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="year" type="s:int" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestABNFilter" abstract="true">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequest">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="authenticationGUID" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="entityTypeCode" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestABNCharityFilter">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequestABNFilter">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="charityTypeCode" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="concessionTypeCode" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestABNStatusFilter">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequestABNFilter">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="activeABNs" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="currentGSTRegistrationOnly" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="ExternalRequestABNUpdateEventFilter">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequestABNFilter">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="updateDate" type="s:dateTime" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
       <s:complexType name="ExternalRequestIdentifierSearch">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ExternalRequest">
+          <s:extension base="tns:ExternalRequest">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="authenticationGUID" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="identifierType" type="s:string" />
@@ -658,21 +165,45 @@
           <s:element minOccurs="1" maxOccurs="1" name="dateRegisterLastUpdated" type="s:date" />
           <s:element minOccurs="1" maxOccurs="1" name="dateTimeRetrieved" type="s:dateTime" />
           <s:choice minOccurs="1" maxOccurs="1">
-            <s:element minOccurs="0" maxOccurs="1" name="abnList" type="s1:ResponseABNList" />
-            <s:element minOccurs="0" maxOccurs="1" name="exception" type="s1:ResponseException" />
-            <s:element minOccurs="0" maxOccurs="1" name="searchResultsList" type="s1:ResponseSearchResultsList" />
-            <s:element minOccurs="0" maxOccurs="1" name="businessEntity200506" type="s1:ResponseBusinessEntity200506" />
-            <s:element minOccurs="0" maxOccurs="1" name="businessEntity" type="s1:ResponseBusinessEntity" />
-            <s:element minOccurs="0" maxOccurs="1" name="businessEntity200709" type="s1:ResponseBusinessEntity200709" />
+            <s:element minOccurs="0" maxOccurs="1" name="businessEntity200506" type="tns:ResponseBusinessEntity200506" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchResultsList" type="tns:ResponseSearchResultsList" />
+            <s:element minOccurs="0" maxOccurs="1" name="abnList" type="tns:ResponseABNList" />
+            <s:element minOccurs="0" maxOccurs="1" name="businessEntity" type="tns:ResponseBusinessEntity" />
+            <s:element minOccurs="0" maxOccurs="1" name="exception" type="tns:ResponseException" />
+            <s:element minOccurs="0" maxOccurs="1" name="businessEntity200709" type="tns:ResponseBusinessEntity200709" />
           </s:choice>
         </s:sequence>
       </s:complexType>
-      <s:complexType name="ResponseABNList">
+      <s:complexType name="ResponseBusinessEntity200506">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ResponseBody">
+          <s:extension base="tns:ResponseBusinessEntity">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="numberOfRecords" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="abn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="charityType" nillable="true" type="tns:CharityType" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="taxConcessionCharityEndorsement" nillable="true" type="tns:CharityConcession" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="publicBenevolentInstitutionEmployer" nillable="true" type="tns:CharitableFund" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ResponseBusinessEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ResponseBody">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="recordLastUpdatedDate" type="s:date" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="ABN" type="tns:Identifier" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="entityStatus" type="tns:EntityStatus" />
+              <s:element minOccurs="1" maxOccurs="1" name="ASICNumber" nillable="true" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="entityType" nillable="true" type="tns:EntityType" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="goodsAndServicesTax" nillable="true" type="tns:GoodsAndServicesTax" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="dgrEndorsement" nillable="true" type="tns:DGREndorsement" />
+              <s:choice minOccurs="0" maxOccurs="unbounded">
+                <s:element minOccurs="0" maxOccurs="1" name="legalName" type="tns:IndividualName" />
+                <s:element minOccurs="0" maxOccurs="1" name="mainName" type="tns:OrganisationName" />
+              </s:choice>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="mainTradingName" nillable="true" type="tns:OrganisationName" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="otherTradingName" nillable="true" type="tns:OrganisationName" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="mainBusinessPhysicalAddress" nillable="true" type="tns:AddressDetails" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="dgrFund" nillable="true" type="tns:DgrFund" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -680,27 +211,27 @@
       <s:complexType name="ResponseBody" />
       <s:complexType name="ResponseSearchResultsList">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ResponseBody">
+          <s:extension base="tns:ResponseBody">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="numberOfRecords" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="exceedsMaximum" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="searchResultsRecord" type="s1:SearchResultsRecord" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="searchResultsRecord" type="tns:SearchResultsRecord" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
       <s:complexType name="SearchResultsRecord">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="ABN" type="s1:IdentifierSummary" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ABN" type="tns:IdentifierSummary" />
           <s:choice minOccurs="0" maxOccurs="unbounded">
-            <s:element minOccurs="0" maxOccurs="1" name="legalName" type="s1:IndividualSimpleName" />
-            <s:element minOccurs="0" maxOccurs="1" name="otherTradingName" type="s1:OrganisationSimpleName" />
-            <s:element minOccurs="0" maxOccurs="1" name="PBIEName" type="s1:OrganisationSimpleName" />
-            <s:element minOccurs="0" maxOccurs="1" name="mainTradingName" type="s1:OrganisationSimpleName" />
-            <s:element minOccurs="0" maxOccurs="1" name="mainName" type="s1:OrganisationSimpleName" />
-            <s:element minOccurs="0" maxOccurs="1" name="dgrFundName" type="s1:OrganisationSimpleName" />
+            <s:element minOccurs="0" maxOccurs="1" name="legalName" type="tns:IndividualSimpleName" />
+            <s:element minOccurs="0" maxOccurs="1" name="dgrFundName" type="tns:OrganisationSimpleName" />
+            <s:element minOccurs="0" maxOccurs="1" name="PBIEName" type="tns:OrganisationSimpleName" />
+            <s:element minOccurs="0" maxOccurs="1" name="otherTradingName" type="tns:OrganisationSimpleName" />
+            <s:element minOccurs="0" maxOccurs="1" name="mainName" type="tns:OrganisationSimpleName" />
+            <s:element minOccurs="0" maxOccurs="1" name="mainTradingName" type="tns:OrganisationSimpleName" />
           </s:choice>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="mainBusinessPhysicalAddress" nillable="true" type="s1:AddressSimple" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="mainBusinessPhysicalAddress" nillable="true" type="tns:AddressSimple" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="IdentifierSummary">
@@ -711,7 +242,7 @@
       </s:complexType>
       <s:complexType name="IndividualSimpleName">
         <s:complexContent mixed="false">
-          <s:extension base="s1:Individual">
+          <s:extension base="tns:Individual">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="score" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="isCurrentIndicator" type="s:string" />
@@ -729,7 +260,7 @@
       </s:complexType>
       <s:complexType name="IndividualName">
         <s:complexContent mixed="false">
-          <s:extension base="s1:Individual">
+          <s:extension base="tns:Individual">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="effectiveFrom" type="s:date" />
               <s:element minOccurs="1" maxOccurs="1" name="effectiveTo" type="s:date" />
@@ -739,7 +270,7 @@
       </s:complexType>
       <s:complexType name="OrganisationSimpleName">
         <s:complexContent mixed="false">
-          <s:extension base="s1:Organisation">
+          <s:extension base="tns:Organisation">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="score" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="isCurrentIndicator" type="s:string" />
@@ -754,12 +285,12 @@
       </s:complexType>
       <s:complexType name="OrganisationName">
         <s:complexContent mixed="false">
-          <s:extension base="s1:Organisation">
+          <s:extension base="tns:Organisation">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="effectiveFrom" type="s:date" />
               <s:choice minOccurs="1" maxOccurs="1">
-                <s:element minOccurs="1" maxOccurs="1" name="effectiveTo" type="s:date" />
                 <s:element minOccurs="0" maxOccurs="1" name="effectiveToBlank" />
+                <s:element minOccurs="1" maxOccurs="1" name="effectiveTo" type="s:date" />
               </s:choice>
             </s:sequence>
           </s:extension>
@@ -767,7 +298,7 @@
       </s:complexType>
       <s:complexType name="AddressSimple">
         <s:complexContent mixed="false">
-          <s:extension base="s1:Address">
+          <s:extension base="tns:Address">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="isCurrentIndicator" type="s:string" />
             </s:sequence>
@@ -782,7 +313,7 @@
       </s:complexType>
       <s:complexType name="AddressFull">
         <s:complexContent mixed="false">
-          <s:extension base="s1:Address">
+          <s:extension base="tns:Address">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="addressLine1" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="addressLine2" type="s:string" />
@@ -794,7 +325,7 @@
       </s:complexType>
       <s:complexType name="AddressDetails">
         <s:complexContent mixed="false">
-          <s:extension base="s1:Address">
+          <s:extension base="tns:Address">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="effectiveFrom" type="s:date" />
               <s:element minOccurs="1" maxOccurs="1" name="effectiveTo" type="s:date" />
@@ -802,35 +333,22 @@
           </s:extension>
         </s:complexContent>
       </s:complexType>
-      <s:complexType name="ResponseException">
+      <s:complexType name="ResponseABNList">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ResponseBody">
+          <s:extension base="tns:ResponseBody">
             <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="exceptionDescription" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="exceptionCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="numberOfRecords" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="abn" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
-      <s:complexType name="ResponseBusinessEntity">
+      <s:complexType name="ResponseException">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ResponseBody">
+          <s:extension base="tns:ResponseBody">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="recordLastUpdatedDate" type="s:date" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="ABN" type="s1:Identifier" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="entityStatus" type="s1:EntityStatus" />
-              <s:element minOccurs="1" maxOccurs="1" name="ASICNumber" nillable="true" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="entityType" nillable="true" type="s1:EntityType" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="goodsAndServicesTax" nillable="true" type="s1:GoodsAndServicesTax" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="dgrEndorsement" nillable="true" type="s1:DGREndorsement" />
-              <s:choice minOccurs="0" maxOccurs="unbounded">
-                <s:element minOccurs="0" maxOccurs="1" name="legalName" type="s1:IndividualName" />
-                <s:element minOccurs="0" maxOccurs="1" name="mainName" type="s1:OrganisationName" />
-              </s:choice>
-              <s:element minOccurs="0" maxOccurs="unbounded" name="mainTradingName" nillable="true" type="s1:OrganisationName" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="otherTradingName" nillable="true" type="s1:OrganisationName" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="mainBusinessPhysicalAddress" nillable="true" type="s1:AddressDetails" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="dgrFund" nillable="true" type="s1:DgrFund" />
+              <s:element minOccurs="0" maxOccurs="1" name="exceptionDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="exceptionCode" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -870,21 +388,10 @@
       </s:complexType>
       <s:complexType name="DgrFund">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="dgrFundName" type="s1:OrganisationSimpleName" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="dgrFundName" type="tns:OrganisationSimpleName" />
           <s:element minOccurs="1" maxOccurs="1" name="endorsedFrom" type="s:date" />
           <s:element minOccurs="1" maxOccurs="1" name="endorsedTo" type="s:date" />
         </s:sequence>
-      </s:complexType>
-      <s:complexType name="ResponseBusinessEntity200506">
-        <s:complexContent mixed="false">
-          <s:extension base="s1:ResponseBusinessEntity">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="unbounded" name="charityType" nillable="true" type="s1:CharityType" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="taxConcessionCharityEndorsement" nillable="true" type="s1:CharityConcession" />
-              <s:element minOccurs="0" maxOccurs="unbounded" name="publicBenevolentInstitutionEmployer" nillable="true" type="s1:CharitableFund" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
       </s:complexType>
       <s:complexType name="CharityType">
         <s:sequence>
@@ -902,17 +409,17 @@
       </s:complexType>
       <s:complexType name="CharitableFund">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="pbiName" type="s1:OrganisationSimpleName" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="pbiName" type="tns:OrganisationSimpleName" />
           <s:element minOccurs="1" maxOccurs="1" name="effectiveFrom" type="s:date" />
           <s:element minOccurs="1" maxOccurs="1" name="effectiveTo" type="s:date" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ResponseBusinessEntity200709">
         <s:complexContent mixed="false">
-          <s:extension base="s1:ResponseBusinessEntity200506">
+          <s:extension base="tns:ResponseBusinessEntity200506">
             <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="superannuationStatus" type="s1:SuperannuationStatus" />
-              <s:element minOccurs="0" maxOccurs="1" name="mainPostalPhysicalAddress" type="s1:AddressFull" />
+              <s:element minOccurs="0" maxOccurs="1" name="superannuationStatus" type="tns:SuperannuationStatus" />
+              <s:element minOccurs="0" maxOccurs="1" name="mainPostalPhysicalAddress" type="tns:AddressFull" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -925,175 +432,384 @@
           <s:element minOccurs="0" maxOccurs="1" name="exceptionMessage" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="ABRSearchByASIC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="includeHistoricalDetails" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByASICResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="externalNameSearch" type="tns:ExternalRequestNameSearch" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvanced">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="externalNameSearch" type="tns:ExternalRequestNameSearchAdvanced" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvancedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvanced2006">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="externalNameSearch" type="tns:ExternalRequestNameSearchAdvanced2006" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvanced2006Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameSimpleProtocol">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="legalName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tradingName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NSW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ACT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VIC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="QLD" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TAS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameSimpleProtocolResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvancedSimpleProtocol">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="legalName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tradingName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NSW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ACT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VIC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="QLD" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TAS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchWidth" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="minimumScore" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvancedSimpleProtocolResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvancedSimpleProtocol2006">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="legalName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tradingName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NSW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ACT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VIC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="QLD" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TAS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchWidth" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="minimumScore" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="maxSearchResults" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRSearchByNameAdvancedSimpleProtocol2006Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByABNv200506">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="includeHistoricalDetails" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByABNv200506Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByASICv200506">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="includeHistoricalDetails" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByASICv200506Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByPostcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByPostcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByABNStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="activeABNsOnly" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="currentGSTRegistrationOnly" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entityTypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByABNStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByRegistrationEvent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entityTypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="month" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="year" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByRegistrationEventResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByUpdateEvent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entityTypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="updatedate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByUpdateEventResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByCharity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="charityTypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="concessionTypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByCharityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByABNv200709">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="includeHistoricalDetails" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authenticationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByABNv200709Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ABRPayloadSearchResults" nillable="true" type="tns:Payload" />
     </s:schema>
   </wsdl:types>
   <wsdl:message name="ABRSearchByABNSoapIn">
-    <wsdl:part name="searchString" type="s:string" />
-    <wsdl:part name="includeHistoricalDetails" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByABN" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByABNSoapOut">
-    <wsdl:part name="ABRSearchByABNResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByABNResponse" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByASICSoapIn">
-    <wsdl:part name="searchString" type="s:string" />
-    <wsdl:part name="includeHistoricalDetails" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByASIC" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByASICSoapOut">
-    <wsdl:part name="ABRSearchByASICResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByASICResponse" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSoapIn">
-    <wsdl:part name="externalNameSearch" type="tns:ExternalRequestNameSearch" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByName" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSoapOut">
-    <wsdl:part name="ABRSearchByNameResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameResponse" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSoapIn">
-    <wsdl:part name="externalNameSearch" type="tns:ExternalRequestNameSearchAdvanced" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvanced" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSoapOut">
-    <wsdl:part name="ABRSearchByNameAdvancedResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvancedResponse" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvanced2006SoapIn">
-    <wsdl:part name="externalNameSearch" type="tns:ExternalRequestNameSearchAdvanced2006" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvanced2006" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvanced2006SoapOut">
-    <wsdl:part name="ABRSearchByNameAdvanced2006Result" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvanced2006Response" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSimpleProtocolSoapIn">
-    <wsdl:part name="name" type="s:string" />
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="legalName" type="s:string" />
-    <wsdl:part name="tradingName" type="s:string" />
-    <wsdl:part name="NSW" type="s:string" />
-    <wsdl:part name="SA" type="s:string" />
-    <wsdl:part name="ACT" type="s:string" />
-    <wsdl:part name="VIC" type="s:string" />
-    <wsdl:part name="WA" type="s:string" />
-    <wsdl:part name="NT" type="s:string" />
-    <wsdl:part name="QLD" type="s:string" />
-    <wsdl:part name="TAS" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameSimpleProtocol" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSimpleProtocolSoapOut">
-    <wsdl:part name="ABRSearchByNameSimpleProtocolResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameSimpleProtocolResponse" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocolSoapIn">
-    <wsdl:part name="name" type="s:string" />
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="legalName" type="s:string" />
-    <wsdl:part name="tradingName" type="s:string" />
-    <wsdl:part name="NSW" type="s:string" />
-    <wsdl:part name="SA" type="s:string" />
-    <wsdl:part name="ACT" type="s:string" />
-    <wsdl:part name="VIC" type="s:string" />
-    <wsdl:part name="WA" type="s:string" />
-    <wsdl:part name="NT" type="s:string" />
-    <wsdl:part name="QLD" type="s:string" />
-    <wsdl:part name="TAS" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
-    <wsdl:part name="searchWidth" type="s:string" />
-    <wsdl:part name="minimumScore" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvancedSimpleProtocol" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocolSoapOut">
-    <wsdl:part name="ABRSearchByNameAdvancedSimpleProtocolResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvancedSimpleProtocolResponse" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocol2006SoapIn">
-    <wsdl:part name="name" type="s:string" />
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="legalName" type="s:string" />
-    <wsdl:part name="tradingName" type="s:string" />
-    <wsdl:part name="NSW" type="s:string" />
-    <wsdl:part name="SA" type="s:string" />
-    <wsdl:part name="ACT" type="s:string" />
-    <wsdl:part name="VIC" type="s:string" />
-    <wsdl:part name="WA" type="s:string" />
-    <wsdl:part name="NT" type="s:string" />
-    <wsdl:part name="QLD" type="s:string" />
-    <wsdl:part name="TAS" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
-    <wsdl:part name="searchWidth" type="s:string" />
-    <wsdl:part name="minimumScore" type="s:string" />
-    <wsdl:part name="maxSearchResults" type="s:string" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvancedSimpleProtocol2006" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocol2006SoapOut">
-    <wsdl:part name="ABRSearchByNameAdvancedSimpleProtocol2006Result" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:ABRSearchByNameAdvancedSimpleProtocol2006Response" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200506SoapIn">
-    <wsdl:part name="searchString" type="s:string" />
-    <wsdl:part name="includeHistoricalDetails" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByABNv200506" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200506SoapOut">
-    <wsdl:part name="SearchByABNv200506Result" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByABNv200506Response" />
   </wsdl:message>
   <wsdl:message name="SearchByASICv200506SoapIn">
-    <wsdl:part name="searchString" type="s:string" />
-    <wsdl:part name="includeHistoricalDetails" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByASICv200506" />
   </wsdl:message>
   <wsdl:message name="SearchByASICv200506SoapOut">
-    <wsdl:part name="SearchByASICv200506Result" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByASICv200506Response" />
   </wsdl:message>
   <wsdl:message name="SearchByPostcodeSoapIn">
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByPostcode" />
   </wsdl:message>
   <wsdl:message name="SearchByPostcodeSoapOut">
-    <wsdl:part name="SearchByPostcodeResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByPostcodeResponse" />
   </wsdl:message>
   <wsdl:message name="SearchByABNStatusSoapIn">
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="activeABNsOnly" type="s:string" />
-    <wsdl:part name="currentGSTRegistrationOnly" type="s:string" />
-    <wsdl:part name="entityTypeCode" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByABNStatus" />
   </wsdl:message>
   <wsdl:message name="SearchByABNStatusSoapOut">
-    <wsdl:part name="SearchByABNStatusResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByABNStatusResponse" />
   </wsdl:message>
   <wsdl:message name="SearchByRegistrationEventSoapIn">
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="state" type="s:string" />
-    <wsdl:part name="entityTypeCode" type="s:string" />
-    <wsdl:part name="month" type="s:string" />
-    <wsdl:part name="year" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByRegistrationEvent" />
   </wsdl:message>
   <wsdl:message name="SearchByRegistrationEventSoapOut">
-    <wsdl:part name="SearchByRegistrationEventResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByRegistrationEventResponse" />
   </wsdl:message>
   <wsdl:message name="SearchByUpdateEventSoapIn">
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="state" type="s:string" />
-    <wsdl:part name="entityTypeCode" type="s:string" />
-    <wsdl:part name="updatedate" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByUpdateEvent" />
   </wsdl:message>
   <wsdl:message name="SearchByUpdateEventSoapOut">
-    <wsdl:part name="SearchByUpdateEventResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByUpdateEventResponse" />
   </wsdl:message>
   <wsdl:message name="SearchByCharitySoapIn">
-    <wsdl:part name="postcode" type="s:string" />
-    <wsdl:part name="state" type="s:string" />
-    <wsdl:part name="charityTypeCode" type="s:string" />
-    <wsdl:part name="concessionTypeCode" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByCharity" />
   </wsdl:message>
   <wsdl:message name="SearchByCharitySoapOut">
-    <wsdl:part name="SearchByCharityResult" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByCharityResponse" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200709SoapIn">
-    <wsdl:part name="searchString" type="s:string" />
-    <wsdl:part name="includeHistoricalDetails" type="s:string" />
-    <wsdl:part name="authenticationGuid" type="s:string" />
+    <wsdl:part name="parameters" element="tns:SearchByABNv200709" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200709SoapOut">
-    <wsdl:part name="SearchByABNv200709Result" type="tns:Payload" />
+    <wsdl:part name="parameters" element="tns:SearchByABNv200709Response" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByABNHttpGetIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1101,7 +817,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByABNHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByASICHttpGetIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1109,7 +825,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByASICHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSimpleProtocolHttpGetIn">
     <wsdl:part name="name" type="s:string" />
@@ -1127,7 +843,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSimpleProtocolHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocolHttpGetIn">
     <wsdl:part name="name" type="s:string" />
@@ -1147,7 +863,7 @@
     <wsdl:part name="minimumScore" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocolHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocol2006HttpGetIn">
     <wsdl:part name="name" type="s:string" />
@@ -1168,7 +884,7 @@
     <wsdl:part name="maxSearchResults" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocol2006HttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200506HttpGetIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1176,7 +892,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200506HttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByASICv200506HttpGetIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1184,14 +900,14 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByASICv200506HttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByPostcodeHttpGetIn">
     <wsdl:part name="postcode" type="s:string" />
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByPostcodeHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByABNStatusHttpGetIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1201,7 +917,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByABNStatusHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByRegistrationEventHttpGetIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1212,7 +928,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByRegistrationEventHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByUpdateEventHttpGetIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1222,7 +938,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByUpdateEventHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByCharityHttpGetIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1232,7 +948,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByCharityHttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200709HttpGetIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1240,7 +956,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200709HttpGetOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByABNHttpPostIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1248,7 +964,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByABNHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByASICHttpPostIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1256,7 +972,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByASICHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSimpleProtocolHttpPostIn">
     <wsdl:part name="name" type="s:string" />
@@ -1274,7 +990,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameSimpleProtocolHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocolHttpPostIn">
     <wsdl:part name="name" type="s:string" />
@@ -1294,7 +1010,7 @@
     <wsdl:part name="minimumScore" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocolHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocol2006HttpPostIn">
     <wsdl:part name="name" type="s:string" />
@@ -1315,7 +1031,7 @@
     <wsdl:part name="maxSearchResults" type="s:string" />
   </wsdl:message>
   <wsdl:message name="ABRSearchByNameAdvancedSimpleProtocol2006HttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200506HttpPostIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1323,7 +1039,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200506HttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByASICv200506HttpPostIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1331,14 +1047,14 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByASICv200506HttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByPostcodeHttpPostIn">
     <wsdl:part name="postcode" type="s:string" />
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByPostcodeHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByABNStatusHttpPostIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1348,7 +1064,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByABNStatusHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByRegistrationEventHttpPostIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1359,7 +1075,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByRegistrationEventHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByUpdateEventHttpPostIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1369,7 +1085,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByUpdateEventHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByCharityHttpPostIn">
     <wsdl:part name="postcode" type="s:string" />
@@ -1379,7 +1095,7 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByCharityHttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200709HttpPostIn">
     <wsdl:part name="searchString" type="s:string" />
@@ -1387,9 +1103,9 @@
     <wsdl:part name="authenticationGuid" type="s:string" />
   </wsdl:message>
   <wsdl:message name="SearchByABNv200709HttpPostOut">
-    <wsdl:part name="Body" element="s1:ABRPayloadSearchResults" />
+    <wsdl:part name="Body" element="tns:ABRPayloadSearchResults" />
   </wsdl:message>
-  <wsdl:portType name="ABRXMLSearchRPCSoap">
+  <wsdl:portType name="ABRXMLSearchSoap">
     <wsdl:operation name="ABRSearchByABN">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By ABN e.g. 51835430479</documentation>
       <wsdl:input message="tns:ABRSearchByABNSoapIn" />
@@ -1401,12 +1117,12 @@
       <wsdl:output message="tns:ABRSearchByASICSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByName">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By Name</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By Name.</documentation>
       <wsdl:input message="tns:ABRSearchByNameSoapIn" />
       <wsdl:output message="tns:ABRSearchByNameSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByNameAdvanced">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Advanced Search By Name - allows you to specify a search width and minimum score</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Advanced Search By Name - allows you to specify a search width and minimum score.</documentation>
       <wsdl:input message="tns:ABRSearchByNameAdvancedSoapIn" />
       <wsdl:output message="tns:ABRSearchByNameAdvancedSoapOut" />
     </wsdl:operation>
@@ -1431,17 +1147,17 @@
       <wsdl:output message="tns:ABRSearchByNameAdvancedSimpleProtocol2006SoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByABNv200506">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByABN but returns charity tax concession information if it exists for the ABN</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByABN but returns charity tax concession information if it exists for the ABN.</documentation>
       <wsdl:input message="tns:SearchByABNv200506SoapIn" />
       <wsdl:output message="tns:SearchByABNv200506SoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByASICv200506">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByASIC but returns charity tax concession information if it exists for the ABN</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByASIC but returns charity tax concession information if it exists for the ABN.</documentation>
       <wsdl:input message="tns:SearchByASICv200506SoapIn" />
       <wsdl:output message="tns:SearchByASICv200506SoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByPostcode">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By Postcode e.g. 2614. Returns a list of currently active ABNs for a postcode</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of currently active ABNs for a postcode.</documentation>
       <wsdl:input message="tns:SearchByPostcodeSoapIn" />
       <wsdl:output message="tns:SearchByPostcodeSoapOut" />
     </wsdl:operation>
@@ -1471,7 +1187,7 @@
       <wsdl:output message="tns:SearchByABNv200709SoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:portType name="ABRXMLSearchRPCHttpGet">
+  <wsdl:portType name="ABRXMLSearchHttpGet">
     <wsdl:operation name="ABRSearchByABN">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By ABN e.g. 51835430479</documentation>
       <wsdl:input message="tns:ABRSearchByABNHttpGetIn" />
@@ -1498,17 +1214,17 @@
       <wsdl:output message="tns:ABRSearchByNameAdvancedSimpleProtocol2006HttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByABNv200506">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByABN but returns charity tax concession information if it exists for the ABN</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByABN but returns charity tax concession information if it exists for the ABN.</documentation>
       <wsdl:input message="tns:SearchByABNv200506HttpGetIn" />
       <wsdl:output message="tns:SearchByABNv200506HttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByASICv200506">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByASIC but returns charity tax concession information if it exists for the ABN</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByASIC but returns charity tax concession information if it exists for the ABN.</documentation>
       <wsdl:input message="tns:SearchByASICv200506HttpGetIn" />
       <wsdl:output message="tns:SearchByASICv200506HttpGetOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByPostcode">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By Postcode e.g. 2614. Returns a list of currently active ABNs for a postcode</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of currently active ABNs for a postcode.</documentation>
       <wsdl:input message="tns:SearchByPostcodeHttpGetIn" />
       <wsdl:output message="tns:SearchByPostcodeHttpGetOut" />
     </wsdl:operation>
@@ -1538,7 +1254,7 @@
       <wsdl:output message="tns:SearchByABNv200709HttpGetOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:portType name="ABRXMLSearchRPCHttpPost">
+  <wsdl:portType name="ABRXMLSearchHttpPost">
     <wsdl:operation name="ABRSearchByABN">
       <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By ABN e.g. 51835430479</documentation>
       <wsdl:input message="tns:ABRSearchByABNHttpPostIn" />
@@ -1565,17 +1281,17 @@
       <wsdl:output message="tns:ABRSearchByNameAdvancedSimpleProtocol2006HttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByABNv200506">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByABN but returns charity tax concession information if it exists for the ABN</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByABN but returns charity tax concession information if it exists for the ABN.</documentation>
       <wsdl:input message="tns:SearchByABNv200506HttpPostIn" />
       <wsdl:output message="tns:SearchByABNv200506HttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByASICv200506">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByASIC but returns charity tax concession information if it exists for the ABN</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Same as ABRSearchByASIC but returns charity tax concession information if it exists for the ABN.</documentation>
       <wsdl:input message="tns:SearchByASICv200506HttpPostIn" />
       <wsdl:output message="tns:SearchByASICv200506HttpPostOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchByPostcode">
-      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Search By Postcode e.g. 2614. Returns a list of currently active ABNs for a postcode</documentation>
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns a list of currently active ABNs for a postcode.</documentation>
       <wsdl:input message="tns:SearchByPostcodeHttpPostIn" />
       <wsdl:output message="tns:SearchByPostcodeHttpPostOut" />
     </wsdl:operation>
@@ -1605,154 +1321,154 @@
       <wsdl:output message="tns:SearchByABNv200709HttpPostOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="ABRXMLSearchRPCSoap" type="tns:ABRXMLSearchRPCSoap">
-    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+  <wsdl:binding name="ABRXMLSearchSoap" type="tns:ABRXMLSearchSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
     <wsdl:operation name="ABRSearchByABN">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByABN" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByABN" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByASIC">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByASIC" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByASIC" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByName">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByName" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByName" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByNameAdvanced">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByNameAdvanced" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByNameAdvanced" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByNameAdvanced2006">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByNameAdvanced2006" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByNameAdvanced2006" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByNameSimpleProtocol">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByNameSimpleProtocol" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByNameSimpleProtocol" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByNameAdvancedSimpleProtocol">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByNameAdvancedSimpleProtocol" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByNameAdvancedSimpleProtocol" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="ABRSearchByNameAdvancedSimpleProtocol2006">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/ABRSearchByNameAdvancedSimpleProtocol2006" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/ABRSearchByNameAdvancedSimpleProtocol2006" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByABNv200506">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByABNv200506" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByABNv200506" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByASICv200506">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByASICv200506" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByASICv200506" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByPostcode">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByPostcode" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByPostcode" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByABNStatus">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByABNStatus" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByABNStatus" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByRegistrationEvent">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByRegistrationEvent" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByRegistrationEvent" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByUpdateEvent">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByUpdateEvent" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByUpdateEvent" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByCharity">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByCharity" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByCharity" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SearchByABNv200709">
-      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearchRPC/SearchByABNv200709" style="rpc" />
+      <soap:operation soapAction="http://abr.business.gov.au/ABRXMLSearch/SearchByABNv200709" style="document" />
       <wsdl:input>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="encoded" namespace="http://abr.business.gov.au/ABRXMLSearchRPC/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="ABRXMLSearchRPCHttpGet" type="tns:ABRXMLSearchRPCHttpGet">
+  <wsdl:binding name="ABRXMLSearchHttpGet" type="tns:ABRXMLSearchHttpGet">
     <http:binding verb="GET" />
     <wsdl:operation name="ABRSearchByABN">
       <http:operation location="/ABRSearchByABN" />
@@ -1872,7 +1588,7 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="ABRXMLSearchRPCHttpPost" type="tns:ABRXMLSearchRPCHttpPost">
+  <wsdl:binding name="ABRXMLSearchHttpPost" type="tns:ABRXMLSearchHttpPost">
     <http:binding verb="POST" />
     <wsdl:operation name="ABRSearchByABN">
       <http:operation location="/ABRSearchByABN" />
@@ -1992,16 +1708,16 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="ABRXMLSearchRPC">
-    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">ABRpublic web based search services</documentation>
-    <wsdl:port name="ABRXMLSearchRPCSoap" binding="tns:ABRXMLSearchRPCSoap">
-      <soap:address location="http://abr.business.gov.au/abrxmlsearchRPC/abrxmlsearch.asmx" />
+  <wsdl:service name="ABRXMLSearch">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">ABNLookup web based search services</documentation>
+    <wsdl:port name="ABRXMLSearchSoap" binding="tns:ABRXMLSearchSoap">
+      <soap:address location="http://abr.business.gov.au/abrxmlsearch/abrxmlsearch.asmx" />
     </wsdl:port>
-    <wsdl:port name="ABRXMLSearchRPCHttpGet" binding="tns:ABRXMLSearchRPCHttpGet">
-      <http:address location="http://abr.business.gov.au/abrxmlsearchRPC/abrxmlsearch.asmx" />
+    <wsdl:port name="ABRXMLSearchHttpGet" binding="tns:ABRXMLSearchHttpGet">
+      <http:address location="http://abr.business.gov.au/abrxmlsearch/abrxmlsearch.asmx" />
     </wsdl:port>
-    <wsdl:port name="ABRXMLSearchRPCHttpPost" binding="tns:ABRXMLSearchRPCHttpPost">
-      <http:address location="http://abr.business.gov.au/abrxmlsearchRPC/abrxmlsearch.asmx" />
+    <wsdl:port name="ABRXMLSearchHttpPost" binding="tns:ABRXMLSearchHttpPost">
+      <http:address location="http://abr.business.gov.au/abrxmlsearch/abrxmlsearch.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
