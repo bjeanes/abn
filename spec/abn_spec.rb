@@ -5,7 +5,7 @@ require 'abn'
 
 def bad_parameter; (1..11).to_a; end
 
-describe "The ABN class" do
+describe ABN do
   it "should identify a valid ABN" do
     ABN.valid?("12042168743").should be_true
     ABN.valid?(12042168743).should   be_true
