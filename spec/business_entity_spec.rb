@@ -40,9 +40,9 @@ describe BusinessEntity do
     biz = BusinessEntity.new(abn)
     biz.state.should eql("VIC")
   end
+  
+  it "should have the correct status" do
+    biz = BusinessEntity.new(abn)
+    biz.status.should eql("Active")
+  end
 end
-
-# type; 
-# abn; 
-# asic; 
-# state;

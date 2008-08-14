@@ -17,6 +17,7 @@ class ABN::BusinessEntity
   def abn; obj.aBN.first.identifierValue; end
   def asic; obj.aSICNumber; end
   def state; obj.mainBusinessPhysicalAddress.first.stateCode; end
+  def status; obj.entityStatus.first.entityStatusCode; end
 
   private
   def obj
