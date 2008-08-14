@@ -12,13 +12,13 @@ class ABN
   def initialize(num)
     self.number = num
   end
-  
-  protected :number=
+    
   def number=(num)
     @valid = nil # make sure this is recalculated
     @formatted_number = nil
     @number = num.to_s.tr ' ',''
   end
+  protected :number=
   
   def number
     @formatted_number ||= valid? ? "%s%s %s%s%s %s%s%s %s%s%s" % @number.split('') : ""
