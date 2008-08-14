@@ -9,14 +9,11 @@ require 'api/api'
 api_key = "055a1100-a84d-4064-84d7-bce46f7b80c8"
 
 describe BusinessEntity do
-  it "should connect to server" do
-    api = ABRXMLSearchSoap.new
+  it "should instantiate with a valid ABN string" do
+    api = BusinessEntity.new("12042168743")
   end
   
-  it "should get a result" do
-    api = ABRXMLSearchSoap.new
-    param = ABRSearchByABN.new("12042168743", "N", api_key)
-    api.aBRSearchByABN(param)
-  end
-  
+  it "should instantiate with a valid ABN class" do
+    api = BusinessEntity.new(ABN.new("12042168743"))
+  end  
 end
