@@ -20,15 +20,17 @@ class ABN
   def valid?
     return false unless @number.length == 11
 
-    weights = [10, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-    sum = 0
-    (0..10).each do |i|
-      c = @number[i,1]
-      digit = c.to_i - (i.zero? ? 1 : 0)
-      sum += weights[i] * digit
-    end
+    @valid ||= begin
+      weights = [10, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+      sum = 0
+      (0..10).each do |i|
+        c = @number[i,1]
+        digit = c.to_i - (i.zero? ? 1 : 0)
+        sum += weights[i] * digit
+      end
     
-    sum % 89 == 0 ? true : false
+      sum % 89 == 0 ? true : false
+    end
   end
 
   # Correctly formats the represented ABN if valid, else returns
