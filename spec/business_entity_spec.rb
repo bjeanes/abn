@@ -8,7 +8,7 @@ require 'api/api'
 #   used here for *testing* purposes only
 api_key = "055a1100-a84d-4064-84d7-bce46f7b80c8"
 
-describe ABRXMLSearchSoap do
+describe BusinessEntity do
   it "should connect to server" do
     api = ABRXMLSearchSoap.new
   end
