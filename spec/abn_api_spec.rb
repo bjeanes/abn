@@ -2,7 +2,7 @@ $LOAD_PATH << File.dirname(__FILE__) + "/../lib"
 
 require 'spec'
 require 'abn'
-require 'api2/defaultDriver'
+require 'api/defaultDriver'
 
 describe "The ABN API" do
   it "should connect to server" do
