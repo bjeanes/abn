@@ -10,4 +10,9 @@ api = ABRXMLSearchSoap.new
 param = ABRSearchByABN.new("12042168743", "N", "055a1100-a84d-4064-84d7-bce46f7b80c8")
 result = api.aBRSearchByABN(param)
 
-pp result
+business = result.aBRPayloadSearchResults.response.businessEntity
+
+puts "Business Name: #{business.mainName.first.organisationName}"
+puts "ABN: #{business.aBN.first.identifierValue}"
+puts "ASIC: #{business.aSICNumber}"
+puts "Is Active: #{business.entityStatus.first.entityStatusCode}"
