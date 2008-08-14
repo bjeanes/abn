@@ -1,4 +1,4 @@
-class BusinessEntity
+class ABN::BusinessEntity
   attr_accessor :abn
   
   def initialize(abn)

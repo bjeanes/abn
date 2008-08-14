@@ -4,6 +4,8 @@ require 'spec'
 require 'abn'
 require 'api/api'
 
+BusinessEntity = ABN::BusinessEntity
+
 describe BusinessEntity do
   it "should instantiate with a valid ABN string" do
     BusinessEntity.new("12042168743")
