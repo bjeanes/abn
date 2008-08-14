@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.has_rdoc          = true
   s.rdoc_options      << "--title" << "ABN" << "--line-numbers"
   s.rubyforge_project = "yob-projects"
-  s.add_dependency('soap4r', '>= 1.5.8') # at least this is what i am devving with
+  s.add_dependency      'soap4r', '>= 1.5.8' # at least this is what i am devving with
   s.test_files        = [ "spec/abn_spec.rb" ]
   s.files             = [ "lib/abn.rb", "MIT-LICENSE", "README.rdoc" ]
 end
