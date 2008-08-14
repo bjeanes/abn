@@ -6,7 +6,15 @@ class ABN::BusinessEntity
   end
   
   def name
-    obj.mainName.first.organisationName
+    if obj.mainTradingName.nil?
+      obj.mainName.first.organisationName
+    else
+      obj.mainTradingName.first.organisationName
+    end
+  end
+  
+  def type
+    obj.entityType.entityDescription
   end
 
   private
