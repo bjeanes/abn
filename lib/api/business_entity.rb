@@ -17,7 +17,7 @@ class BusinessEntity
   end
   
   def abn=(abn)
-    abn = abn.is_a?(String) ? abn : ABN.new(abn)
+    abn = abn.is_a?(String) ? ABN.new(abn) : abn
     @abn = abn if abn.valid?
 
     # Don't want the ABN object to re-create the BusinessEntity
