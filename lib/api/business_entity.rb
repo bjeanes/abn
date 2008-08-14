@@ -13,9 +13,10 @@ class ABN::BusinessEntity
     end
   end
   
-  def type
-    obj.entityType.entityDescription
-  end
+  def type; obj.entityType.entityDescription; end
+  def abn; obj.aBN.identifierValue; end
+  def asic; obj.aSICNumber; end
+  def state; obj.mainBusinessPhysicalAddress.first.stateCode; end
 
   private
   def obj

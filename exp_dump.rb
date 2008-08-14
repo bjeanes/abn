@@ -16,3 +16,5 @@ puts "Business Name: #{business.mainName.first.organisationName}"
 puts "ABN: #{business.aBN.first.identifierValue}"
 puts "ASIC: #{business.aSICNumber}"
 puts "Is Active: #{business.entityStatus.first.entityStatusCode}"
+
+pp business
