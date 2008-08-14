@@ -6,8 +6,6 @@ class ABN
     
     String = [Major, Minor, Tiny].join('.')
   end
-  
-  attr_accessor :number
 
   # Creates an ABN object representing the ABN number passed
   # as the only parameter.
@@ -18,7 +16,12 @@ class ABN
   protected :number=
   def number=(num)
     @valid = nil # make sure this is recalculated
+    @formatted_number = nil
     @number = num.to_s.tr ' ',''
+  end
+  
+  def number
+    @formatted_number ||= valid? ? "%s%s %s%s%s %s%s%s %s%s%s" % @number.split('') : ""
   end
 
   # Returns whether the current ABN class represents a
@@ -45,7 +48,7 @@ class ABN
   # Correctly formats the represented ABN if valid, else returns
   # an empty string
   def to_s
-    valid? ? "%s%s %s%s%s %s%s%s %s%s%s" % @number.split('') : ""
+    number
   end
 
   # Accepts an ABN number as a String or Bignum and returns
