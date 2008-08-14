@@ -4,8 +4,18 @@ class BusinessEntity
   def initialize(abn)
     self.abn = abn
   end
+  
+  def name
+    
+  end
 
   private
+  def obj
+    @fetched_data ||= begin
+      
+    end
+  end
+  
   def abn=(abn)
     abn = abn.is_a?(String) ? abn : ABN.new(abn)
     @abn = abn if abn.valid?
