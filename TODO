@@ -1,3 +1,29 @@
 - Ability to look up details of an ABN or run more accurate validation using the XMLWebService (wsdl yuck!) (http://www.programmableweb.com/api/australian-business-number-lookup [SOAP/REST aparently])
   - http://abr.business.gov.au/abrxmlsearch/abrxmlsearch.asmx
   - http://abr.business.gov.au/abrxmlsearchRPC/abrxmlsearch.asmx
+  
+- change specs to use business.gov.au recommended test cases (7.1.2 of web services usage guide):
+  -  Suppressed ABN 34 241 177 887 
+  -  Replaced ABN 30 613 501 612 
+  -  Re-issued ABN 77 104 439 054 
+  -  Multiple trading names 88 712 649 015 
+  -  Multiple addresses 33 531 321 789 
+  -  Multiple GST status 76 093 555 992 
+  -  Multiple ABN status 53 772 093 958 
+  -  Many name types 85 832 766 990 
+  -  Main DGR status 56 006 580 883 
+  -  DGR funds with historical names 78 345 431 247 
+  -  Tax concession information 48 212 321 102 
+  -  Superannuation fund 12 586 695 715
+  
+- handle API exceptions (7.1.3 of web services usage guide)
+  -  http error such as: 
+     - Page not found (404);  
+     - Internal server error (500); 
+  -  Application errors such as:  
+     - Invalid ASIC or ABN number; 
+     - No records found;    
+     - Timeout; 
+     - Too many records found; 
+     - unrecognised user; 
+ 
