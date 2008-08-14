@@ -8,7 +8,7 @@ describe ABRXMLSearchSoap do
   it "should connect to server" do
     api = ABRXMLSearchSoap.new
   end
-  
+
   it "should get a result" do
     api = ABRXMLSearchSoap.new
     param = ABRSearchByABN.new("12042168743", "N", api_key)

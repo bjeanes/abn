@@ -6,13 +6,15 @@ class BusinessEntity
   end
   
   def name
-    
+    obj.mainName.first.organisationName
   end
 
   private
   def obj
     @fetched_data ||= begin
-      
+      param = ABRSearchByABN.new("12042168743", "N", api_key)
+      result = ABRXMLSearchSoap.new.aBRSearchByABN(param)
+      result.aBRPayloadSearchResults.response.businessEntity
     end
   end
   

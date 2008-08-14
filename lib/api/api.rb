@@ -1,5 +1,5 @@
-require 'api/driver/defaultDriver'
-require 'api/business_entity'
+require 'lib/api/driver/defaultDriver'
+require 'lib/api/business_entity'
 
 # API Key for Bodaniel Jeanes (me:at:bjeanes:dot:com)
 #   used here for *testing* purposes only
