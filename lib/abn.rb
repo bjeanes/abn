@@ -51,6 +51,11 @@ class ABN
     number
   end
 
+  # Returns the BusinessEntity object that this ABN represents
+  def business
+    @business ||= BusinessEntity.new(self)
+  end
+
   # Accepts an ABN number as a String or Bignum and returns
   # whether or not it is valid (not checked against a database)
   def self.valid?(abn)

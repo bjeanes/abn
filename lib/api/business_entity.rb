@@ -4,9 +4,14 @@ class BusinessEntity
   def initialize(abn)
     self.abn = abn
   end
-  
+
+  private
   def abn=(abn)
     abn = abn.is_a?(String) ? abn : ABN.new(abn)
     @abn = abn if abn.valid?
+
+    # Don't want the ABN object to re-create the BusinessEntity
+    # object if the BusinessEntity was created first...
+    @abn.instance_variable_set(:@business, self)
   end
 end
