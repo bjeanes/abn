@@ -1,4 +1,4 @@
-A small class for validating Australian Business Numbers (ABN)
+A small library for validating and querying Australian Business Numbers (ABN)
 
 = Installation
 
